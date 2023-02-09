@@ -1,0 +1,31 @@
+{
+  "name": "react-calculations-ui",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "gauge run specs/",
+    "merge": "cp agent-source/browser-agent-all.js ./sl_web",
+    "deploy": "cp -a sl_web/. ../gateway/src/main/resources/static/"
+  },
+  "dependencies": {
+    "axios": "^1.2.5",
+    "bootstrap": "^5.2.3",
+    "jwt-decode": "^3.1.2",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.7.0",
+    "react-dom": "^18.2.0",
+    "react-toastify": "^9.1.1",
+    "taiko": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "@vitejs/plugin-react": "^3.0.0",
+    "prettier": "^2.8.3",
+    "typescript": "^4.9.3",
+    "vite": "^4.0.0"
+  }
+}

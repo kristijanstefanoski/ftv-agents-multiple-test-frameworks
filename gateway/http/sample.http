@@ -1,0 +1,18 @@
+GET http://localhost:9080/api/sum/geometric?first=1&ratio=0.5&count=5
+Accept: application/json
+
+###
+GET http://localhost:9080/api/evaluate/3*9
+Accept: application/json
+
+###
+
+GET http://localhost:9080/api/evaluate/(3*7+4)*0.2
+Accept: application/json
+
+###
+
+GET http://localhost:9080/api/evaluate/2*cos(2*3.141592653589793238)
+Accept: application/json
+
+###

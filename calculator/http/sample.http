@@ -1,0 +1,19 @@
+GET http://localhost:9081/evaluate/3*7
+Accept: application/json
+
+###
+
+GET http://localhost:9081/evaluate/(3*7+4)*0.2
+Accept: application/json
+
+###
+
+GET http://localhost:9081/evaluate/3*cos(2*3.141592653589793238)
+Accept: application/json
+
+###
+
+GET http://localhost:9081/evaluate/(2*(12-7))/2
+Accept: application/json
+
+###

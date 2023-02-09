@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+    gateway:
+        env_file:
+        - parameters.env
+        container_name: gateway-server
+        build: gateway
+        ports:
+        - "9080:8080"
+        networks:
+        - ftv-demo-network
+    calculator:
+        env_file:
+        - parameters_2.env
+        container_name: calculator-server
+        build: calculator
+        ports:
+        - "9081:8080"
+        networks:
+        - ftv-demo-network
+    summator:
+        env_file:
+        - parameters.env
+        container_name: summator-server
+        build: summator
+        ports:
+        - "9082:8080"
+        networks:
+        - ftv-demo-network
+networks:
+    ftv-demo-network:
+        driver: bridge

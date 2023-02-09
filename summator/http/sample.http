@@ -1,0 +1,13 @@
+GET http://localhost:9082/sum/geometric?first=1&ratio=2&count=4
+
+###
+
+GET http://localhost:9082/sum/geometric?first=1&ratio=0.5&count=4
+Accept: application/json
+
+###
+
+GET http://localhost:9082/sum/geometric?first=1&ratio=0.5
+Accept: application/json
+
+###
