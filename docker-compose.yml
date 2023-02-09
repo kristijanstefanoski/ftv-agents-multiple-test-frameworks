@@ -11,7 +11,7 @@ services:
         - ftv-demo-network
     calculator:
         env_file:
-        - parameters_2.env
+        - parameters_calculator.env
         container_name: calculator-server
         build: calculator
         ports:

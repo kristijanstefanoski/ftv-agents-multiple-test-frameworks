@@ -72,7 +72,10 @@ const testEnv = argv.testEnv ?? DEFAULT_TEST_ENV;
           `build_${stdout.replace(/[\n\t\r]/g, "")}`
         );
       fs.writeFileSync(`${__dirname}/../parameters.env`, parametersEnv);
-      fs.writeFileSync(`${__dirname}/../parameters_rerun.env`, parametersEnv);
+      fs.writeFileSync(
+        `${__dirname}/../parameters_calculator.env`,
+        parametersEnv
+      );
     }
   });
 
