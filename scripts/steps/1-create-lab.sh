@@ -1,3 +1,3 @@
 #!/bin/sh
 cd ../js-scripts || exit
-node createLab.js --appName="ftv_gauge_demo_09"
+node createLab.js --appName="gauge-ftv-demo"

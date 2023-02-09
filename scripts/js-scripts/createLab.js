@@ -13,7 +13,7 @@ if (!appName?.length) {
   throw new Error('ERROR: Required argument "appName" not provided.');
 }
 
-const apiToken = fs.readFileSync(`${__dirname}/../sltoken.txt`, "utf-8");
+const apiToken = fs.readFileSync(`${__dirname}/../../sltoken.txt`, "utf-8");
 
 const decoded = jwtDecode(apiToken);
 const baseUrl = decoded["x-sl-server"].replace("api", "sl-api");
@@ -46,7 +46,7 @@ const testEnv = argv.testEnv ?? DEFAULT_TEST_ENV;
   console.log(`Successfully saved labId to file: ${fileExport}.json`);
   exec(`date +"%y%m%d_%H%M"`, (error, stdout, stderr) => {
     fs.writeFileSync(
-      `${__dirname}/${fileExport}.json`,
+      `${__dirname}/../${fileExport}.json`,
       JSON.stringify(
         {
           labId,
@@ -61,7 +61,7 @@ const testEnv = argv.testEnv ?? DEFAULT_TEST_ENV;
     );
     if (replace !== "false") {
       let parametersEnv = fs
-        .readFileSync(`${__dirname}/../parameters.env`)
+        .readFileSync(`${__dirname}/../../parameters.env`)
         .toString();
       parametersEnv = parametersEnv
         .replace(new RegExp(/(?<=SL_LAB_ID=).*/gm), labId)
@@ -71,9 +71,9 @@ const testEnv = argv.testEnv ?? DEFAULT_TEST_ENV;
           new RegExp(/(?<=SL_BUILD_NAME=).*/gm),
           `build_${stdout.replace(/[\n\t\r]/g, "")}`
         );
-      fs.writeFileSync(`${__dirname}/../parameters.env`, parametersEnv);
+      fs.writeFileSync(`${__dirname}/../../parameters.env`, parametersEnv);
       fs.writeFileSync(
-        `${__dirname}/../parameters_calculator.env`,
+        `${__dirname}/../../parameters_calculator.env`,
         parametersEnv
       );
     }

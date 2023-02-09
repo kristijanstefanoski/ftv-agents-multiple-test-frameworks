@@ -3,13 +3,13 @@ const jwtDecode = require("jwt-decode");
 const fs = require("fs");
 const { exec } = require("child_process");
 
-const apiToken = fs.readFileSync(`${__dirname}/../sltoken.txt`, "utf-8");
+const apiToken = fs.readFileSync(`${__dirname}/../../sltoken.txt`, "utf-8");
 
 const decoded = jwtDecode(apiToken);
 const baseUrl = decoded["x-sl-server"].replace("api", "sl-api");
 
-const buildData = JSON.parse(fs.readFileSync("./slLabData.json").toString());
-const bsid = fs.readFileSync("../frontend/buildSessionId").toString();
+const buildData = JSON.parse(fs.readFileSync("../slLabData.json").toString());
+const bsid = fs.readFileSync("../../frontend/buildSessionId").toString();
 
 const createBSIDRoute = `/v1/agent-apis/lab-ids/${buildData.labId}/integration-build`;
 
@@ -38,7 +38,7 @@ const createBSIDRoute = `/v1/agent-apis/lab-ids/${buildData.labId}/integration-b
       );
 
       fs.writeFileSync(
-        `${__dirname}/integrationBSID`,
+        `${__dirname}/../integrationBSID`,
         data.data.buildSessionId
       );
     } catch (e) {
