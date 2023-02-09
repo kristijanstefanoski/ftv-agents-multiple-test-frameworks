@@ -13,9 +13,6 @@ public class CalculatorService {
     public double eval(final String expression) {
         expressionValidator.validate(expression);
         final DoubleEvaluator doubleEvaluator = new DoubleEvaluator();
-
-        System.out.println("Test println");
-
         try {
             return doubleEvaluator.evaluate(expression);
         } catch (IllegalArgumentException illegalArgumentException) {
