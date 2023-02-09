@@ -2,7 +2,7 @@
 
 ## TL;DR
 Add your token in the root directory in a file `sltoken.txt` and fill in/replace the values in 
-`parameters.env` and `parameters_calculator.env`.
+`parameters.env` and `parameters_calculator.env`. (initially they can (should) match)
 Change directory into `/scripts/steps`.
 Run the scripts one by one:
 ```shell
