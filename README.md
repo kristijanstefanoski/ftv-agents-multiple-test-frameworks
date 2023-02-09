@@ -1,7 +1,8 @@
 # Gauge + FTV Java agents demo
 
 ## TL;DR
-Add your token in the root directory in a file `sltoken.txt`
+Add your token in the root directory in a file `sltoken.txt` and fill in/replace the values in 
+`parameters.env` and `parameters_calculator.env`.
 Change directory into `/scripts/steps`.
 Run the scripts one by one:
 ```shell
