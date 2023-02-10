@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "gauge run specs/",
+    "test:gauge": "gauge run specs/",
+    "test:cypress": "npx cypress open",
     "merge": "cp agent-source/browser-agent-all.js ./sl_web",
     "deploy": "cp -a sl_web/. ../gateway/src/main/resources/static/"
   },
@@ -26,6 +27,7 @@
     "@vitejs/plugin-react": "^3.0.0",
     "prettier": "^2.8.3",
     "typescript": "^4.9.3",
-    "vite": "^4.0.0"
+    "vite": "^4.0.0",
+    "cypress": "^12.5.1"
   }
 }

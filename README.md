@@ -1,16 +1,17 @@
 # FTV Java agent demo with Gauge and Cypress tests
 
 ## TL;DR
-Add your token in the root directory in a file `sltoken.txt` and fill in/replace the values in 
-`parameters.env` and `parameters_calculator.env`. (initially they can (should) match)
-Change directory into `/scripts/steps`.
-Run the scripts one by one:
+* Add your token in the root directory in a file `sltoken.txt` 
+* Fill in/replace the values in `parameters.env` and `parameters_calculator.env`. (initially they can (should) match)
+* Change directory into `/scripts/steps` and run the scripts one by one:
 ```shell
 ./1-create-lab.sh # Will create a new Lab and save it's details, like labId
 ./2-instrument-frontend.sh # Configure and instrument the frontend React application
 ./3-deploy-services.sh # Deploys all backend services using docker-compose, wait for services to be up and running
 ./4-add-frontend-component.sh # Creates a new Build Session Id by adding the frontend application to the integration build
-./5-run-tests.sh # Runs the Gauge tests
+./5-run-gauge-tests.sh # Runs the Gauge tests 
+# OR
+./5-run-cypress-tests.sh # Runs the Cypress tests 
 # Step 6 - manually turn TIA on from your Sealights Dashboard
 ./7-change-backend-calculator-service.sh # Will make a small change in the Calculator service and redeploy, wait for it to be up and running again
 ./8-add-frontend-component.sh # Same as #4
