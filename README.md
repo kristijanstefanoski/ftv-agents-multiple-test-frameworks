@@ -1,4 +1,4 @@
-# Gauge + FTV Java agent demo
+# FTV Java agent demo with Gauge and Cypress tests
 
 ## TL;DR
 Add your token in the root directory in a file `sltoken.txt` and fill in/replace the values in 
