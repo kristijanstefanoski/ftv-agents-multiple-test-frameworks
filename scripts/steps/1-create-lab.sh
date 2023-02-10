@@ -1,3 +1,4 @@
 #!/bin/sh
 cd ../js-scripts || exit
-node createLab.js --appName="gauge-ftv-demo"
+npm i
+node createLab.js --appName="ftv-demo-cypress"
