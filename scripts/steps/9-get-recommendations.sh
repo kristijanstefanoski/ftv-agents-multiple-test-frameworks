@@ -5,3 +5,4 @@ curl --location --request GET 'https://dev-kristijan-gw.dev.sealights.co/sl-api/
 git checkout origin/main -- ../../calculator/src/main/java/i0/sealights/demo/calculator/service/CalculatorService.java
 git checkout origin/main -- ../../parameters.env
 git checkout origin/main -- ../../parameters_calculator.env
+git checkout origin/main -- ../../gateway/src/main/resources/static/assets

@@ -4,14 +4,16 @@ const service = {
   apiToken: null,
   baseUrl: null,
   buildSessionId: null,
+  labId: null,
   testSessionsV1Instance: null,
   testSessionsV2Instance: null,
 };
 
 module.exports = {
-  setConfig: (baseUrl, apiToken, buildSessionId) => {
+  setConfig: (baseUrl, apiToken, buildSessionId, labId) => {
     service.baseUrl = baseUrl;
     service.apiToken = apiToken;
+    service.labId = labId;
     service.buildSessionId = buildSessionId;
     module.exports.createInstanceV1();
     module.exports.createInstanceV2();
@@ -33,10 +35,14 @@ module.exports = {
     });
   },
   createTestSession: async () => {
-    const { data } = await service.testSessionsV1Instance.post("/", {
-      testStage: "Cypress Tests",
+    const sessionData = {
+      testStage: "Cyppress Tests",
       bsid: service.buildSessionId,
-    });
+      labId: service.labId
+    };
+    console.log(`Starting test session with data:`, sessionData);
+
+    const { data } = await service.testSessionsV1Instance.post("/", sessionData);
     return data;
   },
   endTestSession: (testSessionId) => {

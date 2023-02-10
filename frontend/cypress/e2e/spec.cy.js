@@ -7,10 +7,10 @@ let testStartTime;
 describe("Calculator app tests", async () => {
   before(() => {
     cy.task("readSealightsConfig").then(
-      async ({ buildSessionId, apiToken }) => {
+      async ({ buildSessionId, apiToken, labId }) => {
         const decoded = jwtDecode(apiToken); // Agent Token
         const baseUrl = decoded["x-sl-server"]; // Base url of the backend
-        SLService.setConfig(baseUrl, apiToken, buildSessionId);
+        SLService.setConfig(baseUrl, apiToken, buildSessionId, labId);
 
         // Start a test session
         const { testSessionId } = (await SLService.createTestSession()).data;
