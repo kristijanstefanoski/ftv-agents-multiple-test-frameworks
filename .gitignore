@@ -5,3 +5,4 @@
 build
 .idea
 sltoken.txt
+scripts/steps/config.yaml
