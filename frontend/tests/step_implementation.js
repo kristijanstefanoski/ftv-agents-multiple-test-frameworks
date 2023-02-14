@@ -79,7 +79,7 @@ afterSuite(async () => {
         await window.$SealightsAgent.sendAllFootprints();
       },
   );
-  await closeBrowser();
+  // await closeBrowser();
 });
 
 // Return a screenshot file name

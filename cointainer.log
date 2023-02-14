@@ -1,0 +1,45 @@
+kristijan@pop-os:~/Desktop/ftv-agents-multiple-test-frameworks/scripts/steps$ sudo docker run -it --rm --name sl_collector -v $(pwd)/config.yaml:/collector/config.yaml -p 80:80 -p 16500:16500 -p 8080:8080 sealights/on-prem-collector:latest
+2023-02-14 11:39:17.295 Info Collector-agents-manager-collector1: Manager initialized
+ [manager/manager.go:58]
+2023-02-14 11:39:17.295 Info Collector-api-collector1: Http collector initialized at port: 16500 [http/collector.go:53]
+2023-02-14 11:39:17.296 Info Collector-api-collector1: Http collector proxy requests from port: 16500 to http://localhost [http/collector.go:61]
+2023-02-14 11:39:17.296 Info Server-api: Collector api initialized at port: 80 [api/server.go:30]
+2023-02-14 11:39:17.296 Info Collector-agents-manager-collector1: Starting collector manager [manager/manager.go:90]
+⇨ http server started on [::]:16500
+2023-02-14 11:39:17.673 Info Collector-agents-manager-collector1: Started collector manager completed successfully [manager/manager.go:106]
+2023-02-14 11:39:17.673 Debug Collector-agents-manager-collector1: Sending Manager start event completed [manager/manager.go:169]
+2023-02-14 11:39:18.297 Info Collector-api-collector1: Collector started at port: 16500 [http/collector.go:130]
+⇨ http server started on [::]:80
+2023-02-14 11:39:19.301 Info Server-api: Collector api started at port: 80 [api/server.go:65]
+2023-02-14 11:39:52.255 Info 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Footprint aggregator agent initialized for integ_master_e0f7_ftvdemo003/34664644-fcaf-48e7-ab5c-ca64e5df1946-1676374792 [footprint_aggregator/agent.go:56]
+2023-02-14 11:39:52.255 Info 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Starting footprint aggregator agent for integ_master_e0f7_ftvdemo003/34664644-fcaf-48e7-ab5c-ca64e5df1946-1676374792 [footprint_aggregator/agent.go:87]
+2023-02-14 11:39:52.255 Debug 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Sending Agent start event [footprint_aggregator/agent.go:115]
+2023-02-14 11:39:52.338 Debug 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Sending Agent start event completed [footprint_aggregator/agent.go:135]
+2023-02-14 11:39:52.338 Info Collector-agents-manager-collector1: Agent: integ_master_e0f7_ftvdemo003/34664644-fcaf-48e7-ab5c-ca64e5df1946, added [manager/manager.go:239]
+2023-02-14 11:39:52.338 Debug 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Starting runAgentHeartbeat  [footprint_aggregator/agent.go:174]
+2023-02-14 11:39:52.338 Debug Collector-agents-manager-collector1: Agent: integ_master_e0f7_ftvdemo003/34664644-fcaf-48e7-ab5c-ca64e5df1946, command added: footprint  [manager/manager.go:70]
+2023-02-14 11:39:52.417 Info 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Creating new bucket for lab integ_master_e0f7_ftvdemo003 [footprint_aggregator/agent.go:71]
+2023-02-14 11:39:52.858 Debug Collector-agents-manager-collector1: Agent: integ_master_e0f7_ftvdemo003/34664644-fcaf-48e7-ab5c-ca64e5df1946, command added: footprint  [manager/manager.go:70]
+2023-02-14 11:39:57.426 Info 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Execution is closed for labid: integ_master_e0f7_ftvdemo003 [footprint_aggregator/agent.go:217]
+2023-02-14 11:40:02.511 Info 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Execution is closed for labid: integ_master_e0f7_ftvdemo003 [footprint_aggregator/agent.go:217]
+2023-02-14 11:40:07.594 Info 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Execution is closed for labid: integ_master_e0f7_ftvdemo003 [footprint_aggregator/agent.go:217]
+2023-02-14 11:40:12.680 Info 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Execution is closed for labid: integ_master_e0f7_ftvdemo003 [footprint_aggregator/agent.go:217]
+2023-02-14 11:40:32.299 Debug Collector-agents-manager-collector1: Agent: integ_master_e0f7_ftvdemo003/34664644-fcaf-48e7-ab5c-ca64e5df1946, command added: footprint  [manager/manager.go:70]
+2023-02-14 11:41:02.352 Debug Collector-agents-manager-collector1: Agent: integ_master_e0f7_ftvdemo003/34664644-fcaf-48e7-ab5c-ca64e5df1946, command added: footprint  [manager/manager.go:70]
+2023-02-14 11:41:08.643 Info 660eb8de-7084-4121-83e3-3def0da0ac8c-agent: Execution is now open for labid: integ_master_e0f7_ftvdemo003 with execution id: 57dfbb95-9015-4096-bacb-9f04dc7b790b [footprint_aggregator/agent.go:213]
+panic: assignment to entry in nil map
+
+goroutine 53 [running]:
+github.com/Sealights/SL.OnPremise.Collector/types/models/footprint_models.(*FootprintExecution).AddHit(...)
+        /go/github.com/Sealights/SL.OnPremise.Collector/types/models/footprint_models/footprint_execution.go:57
+github.com/Sealights/SL.OnPremise.Collector/types/models/footprint_models.AggregateFootprints({0xc0000340a0, 0x4, 0x4}, 0x0?)
+        /go/github.com/Sealights/SL.OnPremise.Collector/types/models/footprint_models/aggregate_footprints.go:45 +0x83c
+github.com/Sealights/SL.OnPremise.Collector/agents/footprint_aggregator.(*footprintBucket).getAggregatedFootprint(0xc000128060, 0xc000146d70?)
+        /go/github.com/Sealights/SL.OnPremise.Collector/agents/footprint_aggregator/footprint_bucket.go:86 +0xf6
+github.com/Sealights/SL.OnPremise.Collector/agents/footprint_aggregator.(*Agent).processFootprints(0xc000131500)
+        /go/github.com/Sealights/SL.OnPremise.Collector/agents/footprint_aggregator/agent.go:284 +0x1b5
+github.com/Sealights/SL.OnPremise.Collector/agents/footprint_aggregator.(*Agent).runFootprintProcessor(0xc000131500)
+        /go/github.com/Sealights/SL.OnPremise.Collector/agents/footprint_aggregator/agent.go:248 +0x29
+created by github.com/Sealights/SL.OnPremise.Collector/agents/footprint_aggregator.(*Agent).Start
+        /go/github.com/Sealights/SL.OnPremise.Collector/agents/footprint_aggregator/agent.go:93 +0x134
+kristijan@pop-os:~/Desktop/ftv-agents-multiple-test-frameworks/scripts/steps$

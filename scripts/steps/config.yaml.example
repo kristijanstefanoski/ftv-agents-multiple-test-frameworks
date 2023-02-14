@@ -1,0 +1,35 @@
+# servicePort is the port on which is the collector API
+servicePort: 80
+# serviceName is the name of the collector service
+serviceName: collector
+# serviceHost is the host on which is the collector API bind to
+serviceHost: 0.0.0.0
+
+# collectors are the list of collectors listeners to be used
+collectors:
+  # name is the name of the collector
+  - name: collector1
+    # type is the type of the collector, currently only "http" is supported
+    type: http
+    # properties are the properties of the collector listener
+    properties:
+      # logLevel is the log level of the collector (debug, info, warn, error) default is info
+      logLevel: info
+      # port is the port on which the collector is listening
+      port: 8080
+      # serverUrl is the url of the sealights server to connect to (for collector agent registration)
+      serverUrl: https://<your-host>.sealights.co/
+    # target is the destination of the collector to be used (for sending footprints for example)
+    target:
+      # name is the name of the target
+      name: http-target
+      # type is the type of the target, currently only "http" is supported
+      type: http
+      properties:
+        # logLevel is the log level of the target (debug, info, warn, error) default is info
+        logLevel: info
+        # serverUrl is the url of the sealights server api to connect to (for sending footprints)
+        serverUrl:   https://<your-host>.sealights.co/api
+        # token is the sealights authentication token to be used
+        token: <your-token>
+        disableTokenValidation: true

@@ -55703,7 +55703,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             return;
         SlContext = SlContext.setValue(api.createContextKey(SlConst.SL_BAGGAGE_HEADER), {
             [const_1.SL_SESSION_ID]: sessionId,
-            [const_1.SL_TEST_NAME]: testName,
+            [const_1.SL_TEST_NAME]: encodeURI(testName),
         });
         (_b = (_a = window.$SealightsAgent) === null || _a === void 0 ? void 0 : _a.setCurrentTestIdentifier) === null || _b === void 0 ? void 0 : _b.call(_a, `${sessionId}/${testName}`);
     });

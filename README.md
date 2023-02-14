@@ -2,6 +2,7 @@
 
 ## TL;DR
 * Add your token in the root directory in a file `sltoken.txt` 
+* `cd scripts/steps && cp config.yaml.example config.yaml` and fill in the values
 * Fill in/replace the values in `parameters.env` and `parameters_calculator.env`. (initially they can (should) match)
 * Change directory into `/scripts/steps` and run the scripts one by one:
 ```shell
