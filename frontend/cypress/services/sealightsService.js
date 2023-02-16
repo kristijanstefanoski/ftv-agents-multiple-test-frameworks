@@ -38,11 +38,14 @@ module.exports = {
     const sessionData = {
       testStage: "Cyppress Tests",
       bsid: service.buildSessionId,
-      labId: service.labId
+      labId: service.labId,
     };
     console.log(`Starting test session with data:`, sessionData);
 
-    const { data } = await service.testSessionsV1Instance.post("/", sessionData);
+    const { data } = await service.testSessionsV1Instance.post(
+      "/",
+      sessionData
+    );
     return data;
   },
   endTestSession: (testSessionId) => {

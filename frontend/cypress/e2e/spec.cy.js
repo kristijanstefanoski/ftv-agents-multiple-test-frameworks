@@ -6,6 +6,8 @@ let testStartTime;
 
 describe("Calculator app tests", async () => {
   before(() => {
+    cy.visit("http://localhost:9080");
+
     cy.task("readSealightsConfig").then(
       async ({ buildSessionId, apiToken, labId }) => {
         const decoded = jwtDecode(apiToken); // Agent Token
@@ -15,8 +17,6 @@ describe("Calculator app tests", async () => {
         // Start a test session
         const { testSessionId } = (await SLService.createTestSession()).data;
         testSession = testSessionId;
-
-        cy.visit("http://localhost:9080");
       }
     );
   });
@@ -66,7 +66,7 @@ describe("Calculator app tests", async () => {
   });
 
   it("Sums two numbers", () => {
-    cy.get("#expression").type('5+5');
+    cy.get("#expression").type("5+5");
     cy.get("#evaluateSimple").click();
 
     cy.get(".Toastify__toast-body").should("contain.html", 10);

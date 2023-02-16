@@ -53476,7 +53476,7 @@ function extend() {
     }
 });
 
-},{"./lib/browser-agent":495,"./lib/config":501,"./lib/configuration-override":503,"./lib/feature-detection":510}],491:[function(require,module,exports){
+},{"./lib/browser-agent":495,"./lib/config":501,"./lib/configuration-override":503,"./lib/feature-detection":517}],491:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -53760,7 +53760,7 @@ function extend() {
     exports.AgentFactory = AgentFactory;
 });
 
-},{"../../common/agent-events/agent-events-conracts":540,"../../common/agent-events/cockpit-notifier":545,"../../common/agent-instance-data":551,"../../common/config-process":555,"../../common/config-process/config-loader":552,"../../common/config-process/no-op-config-process":556,"../../common/footprints-process-v6/collector-footprints-buffer":570,"../../common/footprints-process-v6/collector-footprints-process":571,"../../common/footprints-process-v6/footprints-buffer":572,"../../common/footprints-process-v6/index":575,"../../common/footprints-process-v6/relative-path-resolver":577,"../../common/http/backend-proxy":579,"../../common/no-op-state-tracker":585,"../../common/state-tracker-fpv6":587,"../../common/system-date":589,"./basic-uuid-generator":492,"./browser-agent-instance":494,"./browser-agent-instance-fpv6":493,"./browser-events-process":496,"./browser-hits-collector":497,"./browser-hits-converter":498,"./code-coverage-manager":499,"./color-cookie-handler":500,"./configuration-manager":502,"./delegate":505,"./entities/environment-data":508,"./footprints-queue-sender":511,"./istanbul-to-footprints-convertor":513,"./istanbul-to-footprints-convertor-v3":512,"./logger/log-factory":516,"./queues/footprints-items-queue":525,"./queues/queue":526,"./services/http/http-client":527,"./services/json/json-client":531,"./services/json/json-client-adapter":530,"./services/json/noop-json-client":532,"./services/light-backend-proxy":533,"./sl-mapping-loader":534,"./state-tracker":535,"./test-state-helper":536,"./watchdog":538,"./window-timers-wrapper":539}],492:[function(require,module,exports){
+},{"../../common/agent-events/agent-events-conracts":540,"../../common/agent-events/cockpit-notifier":545,"../../common/agent-instance-data":551,"../../common/config-process":555,"../../common/config-process/config-loader":552,"../../common/config-process/no-op-config-process":556,"../../common/footprints-process-v6/collector-footprints-buffer":570,"../../common/footprints-process-v6/collector-footprints-process":571,"../../common/footprints-process-v6/footprints-buffer":572,"../../common/footprints-process-v6/index":575,"../../common/footprints-process-v6/relative-path-resolver":577,"../../common/http/backend-proxy":579,"../../common/no-op-state-tracker":585,"../../common/state-tracker-fpv6":587,"../../common/system-date":589,"./basic-uuid-generator":492,"./browser-agent-instance":494,"./browser-agent-instance-fpv6":493,"./browser-events-process":496,"./browser-hits-collector":497,"./browser-hits-converter":498,"./code-coverage-manager":499,"./color-cookie-handler":500,"./configuration-manager":502,"./delegate":505,"./entities/environment-data":508,"./footprints-queue-sender":518,"./istanbul-to-footprints-convertor":520,"./istanbul-to-footprints-convertor-v3":519,"./logger/log-factory":523,"./queues/footprints-items-queue":525,"./queues/queue":526,"./services/http/http-client":527,"./services/json/json-client":531,"./services/json/json-client-adapter":530,"./services/json/noop-json-client":532,"./services/light-backend-proxy":533,"./sl-mapping-loader":534,"./state-tracker":535,"./test-state-helper":536,"./watchdog":538,"./window-timers-wrapper":539}],492:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -53994,7 +53994,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.BrowserAgentInstance = BrowserAgentInstance;
 });
 
-},{"../../common/agent-events/cockpit-notifier":545,"./basic-uuid-generator":492,"./config":501,"./karma-handler":514}],495:[function(require,module,exports){
+},{"../../common/agent-events/cockpit-notifier":545,"./basic-uuid-generator":492,"./config":501,"./karma-handler":521}],495:[function(require,module,exports){
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54010,15 +54010,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./agent-factory", "./logger/log-factory"], factory);
+        define(["require", "exports", "./agent-factory", "./logger/log-factory", "./events-bridge"], factory);
     }
 })(function (require, exports) {
     "use strict";
-    var __syncRequire = typeof module === "object" && typeof module.exports === "object";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.BrowserAgent = void 0;
     const agent_factory_1 = require("./agent-factory");
     const log_factory_1 = require("./logger/log-factory");
+    const events_bridge_1 = require("./events-bridge");
     class BrowserAgent {
         constructor(window, featureDetection) {
             this.instances = [];
@@ -54040,9 +54040,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 this.instanceAddedForBsid[configuration.buildSessionId] = true;
                 const browserAgent = agent_factory_1.AgentFactory.createBrowserAgent(this.window, this.featureDetection, configuration);
                 const { enableOpenTelemetry } = configuration;
-                if (enableOpenTelemetry) {
-                    __syncRequire ? Promise.resolve().then(() => require('./otel-plugin')) : new Promise((resolve_1, reject_1) => { require(['./otel-plugin'], resolve_1, reject_1); });
-                }
+                (0, events_bridge_1.default)(this.logger, enableOpenTelemetry);
                 if (browserAgent) {
                     browserAgent.start();
                     this.instances.push(browserAgent);
@@ -54086,7 +54084,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.BrowserAgent = BrowserAgent;
 });
 
-},{"./agent-factory":491,"./logger/log-factory":516,"./otel-plugin":522}],496:[function(require,module,exports){
+},{"./agent-factory":491,"./events-bridge":514,"./logger/log-factory":523}],496:[function(require,module,exports){
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -54545,7 +54543,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.ConfigurationOverride = ConfigurationOverride;
 });
 
-},{"./logger/console-logger":515,"events":353}],504:[function(require,module,exports){
+},{"./logger/console-logger":522,"events":353}],504:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -54703,6 +54701,240 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.EVENTS = exports.SL_TEST_NAME = exports.SL_SESSION_ID = exports.SL_CONTEXT_KEY = exports.SL_BAGGAGE_HEADER = void 0;
+    exports.SL_BAGGAGE_HEADER = 'baggage';
+    exports.SL_CONTEXT_KEY = 'sl-context';
+    exports.SL_SESSION_ID = 'x-sl-test-session-id';
+    exports.SL_TEST_NAME = 'x-sl-test-name';
+    exports.EVENTS = {
+        SET_BAGGAGE: `set:${exports.SL_BAGGAGE_HEADER}`,
+        ACK_BAGGAGE: `ack:${exports.SL_BAGGAGE_HEADER}`,
+        DELETE_BAGGAGE: `delete:${exports.SL_BAGGAGE_HEADER}`,
+        READY_OTEL_PLUGIN: 'ready:sl-events-bridge',
+        REQUEST_AGENT_CONTEXT: 'request:sl-context',
+        RESPONSE_AGENT_CONTEXT: 'response:sl-context',
+    };
+});
+
+},{}],511:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./const", "@opentelemetry/api", "./const"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const SlConst = require("./const");
+    const api = require("@opentelemetry/api");
+    const const_1 = require("./const");
+    exports.default = (logger, withOpenTelemetry) => {
+        try {
+            let SlContext;
+            window.$Sealights.eventsBridge = {
+                loaded: false,
+                otel: false,
+            };
+            if (withOpenTelemetry) {
+                SlContext = api.ROOT_CONTEXT.setValue(api.createContextKey(SlConst.SL_CONTEXT_KEY), true);
+                window.$Sealights.eventsBridge.getBaggage = () => SlContext.getValue(api.createContextKey(SlConst.SL_BAGGAGE_HEADER));
+                window.$Sealights.eventsBridge.otel = true;
+            }
+            addEventListener(SlConst.EVENTS.SET_BAGGAGE, ({ detail }) => {
+                var _a, _b;
+                const sessionId = detail === null || detail === void 0 ? void 0 : detail[const_1.SL_SESSION_ID];
+                const testName = detail === null || detail === void 0 ? void 0 : detail[const_1.SL_TEST_NAME];
+                if (!(sessionId === null || sessionId === void 0 ? void 0 : sessionId.length) || !(testName === null || testName === void 0 ? void 0 : testName.length))
+                    return;
+                if (withOpenTelemetry) {
+                    SlContext = SlContext.setValue(api.createContextKey(SlConst.SL_BAGGAGE_HEADER), {
+                        [const_1.SL_SESSION_ID]: sessionId,
+                        [const_1.SL_TEST_NAME]: encodeURI(testName),
+                    });
+                }
+                (_b = (_a = window.$SealightsAgent) === null || _a === void 0 ? void 0 : _a.setCurrentTestIdentifier) === null || _b === void 0 ? void 0 : _b.call(_a, `${sessionId}/${testName}`);
+                dispatchEvent(new CustomEvent(SlConst.EVENTS.ACK_BAGGAGE, {
+                    detail,
+                }));
+            });
+            addEventListener(SlConst.EVENTS.REQUEST_AGENT_CONTEXT, () => {
+                dispatchEvent(new CustomEvent(SlConst.EVENTS.RESPONSE_AGENT_CONTEXT, {
+                    detail: { components: window.$Sealights.components || {} },
+                }));
+            });
+            addEventListener(SlConst.EVENTS.DELETE_BAGGAGE, () => {
+                var _a, _b;
+                SlContext = SlContext.deleteValue(api.createContextKey(SlConst.SL_BAGGAGE_HEADER));
+                (_b = (_a = window.$SealightsAgent) === null || _a === void 0 ? void 0 : _a.setCurrentTestIdentifier) === null || _b === void 0 ? void 0 : _b.call(_a, null);
+            });
+            window.$Sealights.eventsBridge.loaded = true;
+            logger.info(`Events Bridge integration loaded. All events registered successfully. OpenTelemetry status: ${withOpenTelemetry}`);
+        }
+        catch (error) {
+            logger.error(`An error occurred while registering OpenTelemetry integration events.`, error);
+            window.$Sealights.eventsBridge.error = error;
+        }
+    };
+});
+
+},{"./const":510,"@opentelemetry/api":18}],512:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "@opentelemetry/instrumentation-fetch", "../utils"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.CustomFetchInstrumentation = void 0;
+    const instrumentation_fetch_1 = require("@opentelemetry/instrumentation-fetch");
+    const utils_1 = require("../utils");
+    class CustomFetchInstrumentation extends instrumentation_fetch_1.FetchInstrumentation {
+        constructor(config) {
+            super(config);
+            this['_addHeaders'] = (options) => {
+                const headers = (0, utils_1.constructBaggageHeader)();
+                options.headers = Object.assign({}, headers, options.headers || {});
+            };
+        }
+    }
+    exports.CustomFetchInstrumentation = CustomFetchInstrumentation;
+});
+
+},{"../utils":516,"@opentelemetry/instrumentation-fetch":49}],513:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "@opentelemetry/instrumentation-xml-http-request", "../utils"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.CustomXMLHttpRequestInstrumentation = void 0;
+    const instrumentation_xml_http_request_1 = require("@opentelemetry/instrumentation-xml-http-request");
+    const utils_1 = require("../utils");
+    class CustomXMLHttpRequestInstrumentation extends instrumentation_xml_http_request_1.XMLHttpRequestInstrumentation {
+        constructor(config) {
+            super(config);
+            this['_addHeaders'] = (xhr) => {
+                var _a;
+                const headers = (0, utils_1.constructBaggageHeader)();
+                if ((_a = headers === null || headers === void 0 ? void 0 : headers.baggage) === null || _a === void 0 ? void 0 : _a.length)
+                    xhr.setRequestHeader('baggage', headers.baggage);
+            };
+        }
+    }
+    exports.CustomXMLHttpRequestInstrumentation = CustomXMLHttpRequestInstrumentation;
+});
+
+},{"../utils":516,"@opentelemetry/instrumentation-xml-http-request":140}],514:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./otel", "./events", "./const"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const otel_1 = require("./otel");
+    const events_1 = require("./events");
+    const const_1 = require("./const");
+    exports.default = (logger, enableOpenTelemetry) => {
+        (0, events_1.default)(logger, enableOpenTelemetry);
+        if (enableOpenTelemetry) {
+            (0, otel_1.default)(logger);
+        }
+        const event = new Event(const_1.EVENTS.READY_OTEL_PLUGIN);
+        window.dispatchEvent(event);
+    };
+});
+
+},{"./const":510,"./events":511,"./otel":515}],515:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "@opentelemetry/instrumentation", "./implementations/CustomFetchInstrumentation", "./implementations/CustomXMLHttpRequestInstrumentation"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const instrumentation_1 = require("@opentelemetry/instrumentation");
+    const CustomFetchInstrumentation_1 = require("./implementations/CustomFetchInstrumentation");
+    const CustomXMLHttpRequestInstrumentation_1 = require("./implementations/CustomXMLHttpRequestInstrumentation");
+    exports.default = (logger) => {
+        try {
+            (0, instrumentation_1.registerInstrumentations)({
+                instrumentations: [
+                    new CustomFetchInstrumentation_1.CustomFetchInstrumentation(),
+                    new CustomXMLHttpRequestInstrumentation_1.CustomXMLHttpRequestInstrumentation(),
+                ],
+            });
+        }
+        catch (error) {
+            logger.error(`An error occurred while registering OpenTelemetry Fetch/XMLHttp instrumentation.`, error);
+            window.$Sealights.eventsBridge.error = error;
+        }
+    };
+});
+
+},{"./implementations/CustomFetchInstrumentation":512,"./implementations/CustomXMLHttpRequestInstrumentation":513,"@opentelemetry/instrumentation":232}],516:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.constructBaggageHeader = void 0;
+    const constructBaggageHeader = () => {
+        var _a, _b;
+        const { getBaggage } = ((_a = window.$Sealights) === null || _a === void 0 ? void 0 : _a.eventsBridge) || {};
+        const baggage = (_b = getBaggage === null || getBaggage === void 0 ? void 0 : getBaggage()) !== null && _b !== void 0 ? _b : {};
+        if (!Object.keys(baggage !== null && baggage !== void 0 ? baggage : {}).length) {
+            return {};
+        }
+        return {
+            baggage: Object.keys(baggage)
+                .map((key) => {
+                return `${key}=${baggage[key]}`;
+            })
+                .join(),
+        };
+    };
+    exports.constructBaggageHeader = constructBaggageHeader;
+});
+
+},{}],517:[function(require,module,exports){
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     exports.FeatureDetection = void 0;
     class FeatureDetection {
         constructor(window) {
@@ -54729,7 +54961,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.FeatureDetection = FeatureDetection;
 });
 
-},{}],511:[function(require,module,exports){
+},{}],518:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -54935,7 +55167,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.FootprintsQueueSender = FootprintsQueueSender;
 });
 
-},{"../../common/system-date":589,"./entities/footprints-item-data":509}],512:[function(require,module,exports){
+},{"../../common/system-date":589,"./entities/footprints-item-data":509}],519:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -55190,7 +55422,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.IstanbulToFootprintsConvertorV3 = IstanbulToFootprintsConvertorV3;
 });
 
-},{"../../common/footprints-process-v6/location-formatter":576,"../../common/footprints-process/collection-interval":578,"../../common/system-date":589,"./logger/log-factory":516}],513:[function(require,module,exports){
+},{"../../common/footprints-process-v6/location-formatter":576,"../../common/footprints-process/collection-interval":578,"../../common/system-date":589,"./logger/log-factory":523}],520:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -55296,7 +55528,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.IstanbulToFootprintsConverter = IstanbulToFootprintsConverter;
 });
 
-},{"./utils":537}],514:[function(require,module,exports){
+},{"./utils":537}],521:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -55371,7 +55603,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.KarmaHandler = KarmaHandler;
 });
 
-},{"../../common/events-process/events-contracts":565,"../../common/events-process/events-creator":566,"../../common/utils/validation-utils":593,"./browser-agent-instance":494}],515:[function(require,module,exports){
+},{"../../common/events-process/events-contracts":565,"../../common/events-process/events-creator":566,"../../common/utils/validation-utils":593,"./browser-agent-instance":494}],522:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -55562,7 +55794,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.ConsoleLogger = ConsoleLogger;
 });
 
-},{"../../../common/system-date":589,"../configuration-override":503}],516:[function(require,module,exports){
+},{"../../../common/system-date":589,"../configuration-override":503}],523:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -55592,7 +55824,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.LogFactory = LogFactory;
 });
 
-},{"./console-logger":515,"./null-logger":517}],517:[function(require,module,exports){
+},{"./console-logger":522,"./null-logger":524}],524:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -55647,206 +55879,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     }
     exports.NullLogger = NullLogger;
     NullLogger.INSTANCE = new NullLogger();
-});
-
-},{}],518:[function(require,module,exports){
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.EVENTS = exports.SL_TEST_NAME = exports.SL_SESSION_ID = exports.SL_CONTEXT_KEY = exports.SL_BAGGAGE_HEADER = void 0;
-    exports.SL_BAGGAGE_HEADER = 'baggage';
-    exports.SL_CONTEXT_KEY = 'sl-context';
-    exports.SL_SESSION_ID = 'x-sl-test-session-id';
-    exports.SL_TEST_NAME = 'x-sl-test-name';
-    exports.EVENTS = {
-        SET_BAGGAGE: `set:${exports.SL_BAGGAGE_HEADER}`,
-        DELETE_BAGGAGE: `delete:${exports.SL_BAGGAGE_HEADER}`,
-        READY_OTEL_PLUGIN: 'ready:sl-browser-agent-otel',
-        REQUEST_AGENT_CONTEXT: 'request:sl-context',
-        RESPONSE_AGENT_CONTEXT: 'response:sl-context',
-    };
-});
-
-},{}],519:[function(require,module,exports){
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./const", "@opentelemetry/api", "./const"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    const SlConst = require("./const");
-    const api = require("@opentelemetry/api");
-    const const_1 = require("./const");
-    let SlContext = api.ROOT_CONTEXT.setValue(api.createContextKey(SlConst.SL_CONTEXT_KEY), true);
-    window.$Sealights.otel = {
-        getBaggage: () => SlContext.getValue(api.createContextKey(SlConst.SL_BAGGAGE_HEADER)),
-        loaded: false,
-    };
-    addEventListener(SlConst.EVENTS.SET_BAGGAGE, ({ detail }) => {
-        var _a, _b;
-        const sessionId = detail === null || detail === void 0 ? void 0 : detail[const_1.SL_SESSION_ID];
-        const testName = detail === null || detail === void 0 ? void 0 : detail[const_1.SL_TEST_NAME];
-        if (!(sessionId === null || sessionId === void 0 ? void 0 : sessionId.length) || !(testName === null || testName === void 0 ? void 0 : testName.length))
-            return;
-        SlContext = SlContext.setValue(api.createContextKey(SlConst.SL_BAGGAGE_HEADER), {
-            [const_1.SL_SESSION_ID]: sessionId,
-            [const_1.SL_TEST_NAME]: encodeURI(testName),
-        });
-        (_b = (_a = window.$SealightsAgent) === null || _a === void 0 ? void 0 : _a.setCurrentTestIdentifier) === null || _b === void 0 ? void 0 : _b.call(_a, `${sessionId}/${testName}`);
-    });
-    addEventListener(SlConst.EVENTS.REQUEST_AGENT_CONTEXT, () => {
-        dispatchEvent(new CustomEvent(SlConst.EVENTS.RESPONSE_AGENT_CONTEXT, {
-            detail: { components: window.$Sealights.components || {} },
-        }));
-    });
-    addEventListener(SlConst.EVENTS.DELETE_BAGGAGE, () => {
-        var _a, _b;
-        SlContext = SlContext.deleteValue(api.createContextKey(SlConst.SL_BAGGAGE_HEADER));
-        (_b = (_a = window.$SealightsAgent) === null || _a === void 0 ? void 0 : _a.setCurrentTestIdentifier) === null || _b === void 0 ? void 0 : _b.call(_a, null);
-    });
-    window.$Sealights.otel.loaded = true;
-});
-
-},{"./const":518,"@opentelemetry/api":18}],520:[function(require,module,exports){
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "@opentelemetry/instrumentation-fetch", "../utils"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.CustomFetchInstrumentation = void 0;
-    const instrumentation_fetch_1 = require("@opentelemetry/instrumentation-fetch");
-    const utils_1 = require("../utils");
-    class CustomFetchInstrumentation extends instrumentation_fetch_1.FetchInstrumentation {
-        constructor(config) {
-            super(config);
-            this['_addHeaders'] = (options) => {
-                const headers = (0, utils_1.constructBaggageHeader)();
-                options.headers = Object.assign({}, headers, options.headers || {});
-            };
-        }
-    }
-    exports.CustomFetchInstrumentation = CustomFetchInstrumentation;
-});
-
-},{"../utils":524,"@opentelemetry/instrumentation-fetch":49}],521:[function(require,module,exports){
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "@opentelemetry/instrumentation-xml-http-request", "../utils"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.CustomXMLHttpRequestInstrumentation = void 0;
-    const instrumentation_xml_http_request_1 = require("@opentelemetry/instrumentation-xml-http-request");
-    const utils_1 = require("../utils");
-    class CustomXMLHttpRequestInstrumentation extends instrumentation_xml_http_request_1.XMLHttpRequestInstrumentation {
-        constructor(config) {
-            super(config);
-            this['_addHeaders'] = (xhr) => {
-                var _a;
-                const headers = (0, utils_1.constructBaggageHeader)();
-                if ((_a = headers === null || headers === void 0 ? void 0 : headers.baggage) === null || _a === void 0 ? void 0 : _a.length)
-                    xhr.setRequestHeader('baggage', headers.baggage);
-            };
-        }
-    }
-    exports.CustomXMLHttpRequestInstrumentation = CustomXMLHttpRequestInstrumentation;
-});
-
-},{"../utils":524,"@opentelemetry/instrumentation-xml-http-request":140}],522:[function(require,module,exports){
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./otel", "./events", "./const"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    require("./otel");
-    require("./events");
-    const const_1 = require("./const");
-    const event = new Event(const_1.EVENTS.READY_OTEL_PLUGIN);
-    window.dispatchEvent(event);
-});
-
-},{"./const":518,"./events":519,"./otel":523}],523:[function(require,module,exports){
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "@opentelemetry/instrumentation", "./implementations/CustomFetchInstrumentation", "./implementations/CustomXMLHttpRequestInstrumentation"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    const instrumentation_1 = require("@opentelemetry/instrumentation");
-    const CustomFetchInstrumentation_1 = require("./implementations/CustomFetchInstrumentation");
-    const CustomXMLHttpRequestInstrumentation_1 = require("./implementations/CustomXMLHttpRequestInstrumentation");
-    (0, instrumentation_1.registerInstrumentations)({
-        instrumentations: [
-            new CustomFetchInstrumentation_1.CustomFetchInstrumentation(),
-            new CustomXMLHttpRequestInstrumentation_1.CustomXMLHttpRequestInstrumentation(),
-        ],
-    });
-});
-
-},{"./implementations/CustomFetchInstrumentation":520,"./implementations/CustomXMLHttpRequestInstrumentation":521,"@opentelemetry/instrumentation":232}],524:[function(require,module,exports){
-(function (factory) {
-    if (typeof module === "object" && typeof module.exports === "object") {
-        var v = factory(require, exports);
-        if (v !== undefined) module.exports = v;
-    }
-    else if (typeof define === "function" && define.amd) {
-        define(["require", "exports"], factory);
-    }
-})(function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    exports.constructBaggageHeader = void 0;
-    const constructBaggageHeader = () => {
-        var _a;
-        const { getBaggage } = ((_a = window.$Sealights) === null || _a === void 0 ? void 0 : _a.otel) || {};
-        const baggage = getBaggage();
-        if (!Object.keys(baggage !== null && baggage !== void 0 ? baggage : {}).length) {
-            return {};
-        }
-        return {
-            baggage: Object.keys(baggage)
-                .map((key) => {
-                return `${key}=${baggage[key]}`;
-            })
-                .join(),
-        };
-    };
-    exports.constructBaggageHeader = constructBaggageHeader;
 });
 
 },{}],525:[function(require,module,exports){
@@ -56297,7 +56329,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     exports.NoopJsonClient = NoopJsonClient;
 });
 
-},{"../../logger/log-factory":516,"./json-client":531}],533:[function(require,module,exports){
+},{"../../logger/log-factory":523,"./json-client":531}],533:[function(require,module,exports){
 (function (factory) {
     if (typeof module === "object" && typeof module.exports === "object") {
         var v = factory(require, exports);
@@ -56870,7 +56902,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             const agentInstanceInfoBuilder = new agent_instance_info_builder_1.AgentInstanceInfoBuilder(this);
             const machineInfoBuilder = new machine_info_builder_1.MachineInfoBuilder();
             const dependencies = Object.assign(Object.assign({}, packageJsonFile.dependencies), packageJsonFile.devDependencies);
-            const nodejsEnvInfoBuilder = new nodejs_env_info_builder_1.NodejsEnvInfoBuilder(dependencies);
+            const nodejsEnvInfoBuilder = new nodejs_env_info_builder_1.NodejsEnvInfoBuilder(this.agentInstanceData, dependencies);
             const ciInfoBuilder = new ci_info_builder_1.CiInfoBuilder();
             const agentStartInfoBuilder = new agent_start_info_builder_1.AgentStartInfoBuilder(agentInstanceInfoBuilder, machineInfoBuilder, nodejsEnvInfoBuilder, ciInfoBuilder);
             const agentStartInfo = agentStartInfoBuilder.build();
@@ -57042,7 +57074,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                 agentId: agentEventsController.agentInstanceData.agentId,
                 agentType: agentEventsController.agentInstanceData.agentType,
                 agentVersion: agentEventsController.agentInstanceData.agentVersion,
-                technology: agentEventsController.agentInstanceData.technology
+                technology: agentEventsController.agentInstanceData.technology,
             };
         }
         fillData() {
@@ -57399,7 +57431,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.NodejsEnvInfoBuilder = void 0;
     class NodejsEnvInfoBuilder {
-        constructor(dependencies) {
+        constructor(agentInstanceData, dependencies) {
+            this.agentInstanceData = agentInstanceData;
             this.info = {};
             this.dependencies = dependencies || {};
         }
@@ -57407,6 +57440,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             this.info.indexJsonDeps = this.dependencies;
             this.info.nodeVersion = process.versions.node;
             this.info.execArgv = process.execArgv;
+            this.info.allocatedMemoryInMB = this.agentInstanceData.AgentAllocatedMemoryInMb;
         }
         build() {
             this.fillData();
@@ -57529,6 +57563,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         resolveAgentVersionForBrowserAgent() {
             const windowVar = typeof window !== 'undefined' ? window : null;
             return (windowVar && windowVar[agent_instance_info_builder_1.AgentInstanceInfoBuilder.SEALIGHTS_WINDOW_OBJECT] && windowVar[agent_instance_info_builder_1.AgentInstanceInfoBuilder.SEALIGHTS_WINDOW_OBJECT].agentVersion) || agent_instance_info_builder_1.AgentInstanceInfoBuilder.DEFAULT_BROWSER_AGENT_VERSION;
+        }
+        set AgentAllocatedMemoryInMb(memory) {
+            this.agentAllocatedMemoryInMb = memory;
+        }
+        get AgentAllocatedMemoryInMb() {
+            return this.agentAllocatedMemoryInMb;
         }
     }
     exports.AgentInstanceData = AgentInstanceData;
