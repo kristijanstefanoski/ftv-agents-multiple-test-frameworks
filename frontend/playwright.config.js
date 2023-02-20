@@ -42,7 +42,7 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
-    baseURL: "http://localhost:3333/",
+    baseURL: "http://localhost:9080/",
   },
 
   /* Configure projects for major browsers */
@@ -87,8 +87,8 @@ module.exports = defineConfig({
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "cd sl_web && httpster",
-    port: 3333,
-  },
+  // webServer: {
+  //   command: "cd sl_web && httpster",
+  //   port: 3333,
+  // },
 });
