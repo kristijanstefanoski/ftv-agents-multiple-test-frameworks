@@ -28,9 +28,9 @@ const labData = JSON.parse(
   fs.readFileSync(`${__dirname}/../../scripts/slLabData.json`).toString()
 );
 module.exports = {
-  createTestSession: async () => {
+  createTestSession: async (testStage) => {
     const sessionData = {
-      testStage: "Gauge Tests",
+      testStage,
       labId: labData.labId,
       bsId,
     };
@@ -40,9 +40,13 @@ module.exports = {
     return data;
   },
   endTestSession: (testSessionId) => {
+    console.log(`Ending test session with testSessionId:`, testSessionId);
     return testSessionsV1Instance.delete(`/${testSessionId}`);
   },
   sendTestEvent: (testSessionId, name, start, end, status) => {
+    console.log(
+      `Sending test event data: ${(testSessionId, name, start, end, status)}`
+    );
     return testSessionsV2Instance.post(`/${testSessionId}`, [
       {
         name,

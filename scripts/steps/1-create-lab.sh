@@ -1,4 +1,4 @@
 #!/bin/sh
 cd ../js-scripts || exit
 npm i
-node createLab.js --appName="ftv-demo-new-events-bridge-cypress-5"
+node createLab.js --appName="ftv-demo-playwright-02"

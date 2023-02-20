@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "test:gauge": "gauge run specs/",
     "test:cypress": "npx cypress open",
+    "test:playwright": "npx playwright test",
     "merge": "cp agent-source/browser-agent-all.js ./sl_web",
     "deploy": "cp -a sl_web/. ../gateway/src/main/resources/static/"
   },
@@ -28,6 +29,7 @@
     "prettier": "^2.8.3",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
-    "cypress": "^12.5.1"
+    "cypress": "^12.5.1",
+    "@playwright/test": "^1.30.0"
   }
 }
