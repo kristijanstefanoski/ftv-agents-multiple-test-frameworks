@@ -23,7 +23,8 @@ let testStartTime;
 
 beforeSuite(async () => {
   // Start a test session
-  const { testSessionId } = (await SLService.createTestSession()).data;
+  const { testSessionId } = (await SLService.createTestSession("Gauge Tests"))
+    .data;
   testSession = testSessionId;
 
   await openBrowser({
@@ -73,12 +74,9 @@ afterScenario(async (scenario) => {
 afterSuite(async () => {
   // End the current test session after the running suite
   await SLService.endTestSession(testSession);
-  await evaluate(
-      "",
-      async (e) => {
-        await window.$SealightsAgent.sendAllFootprints();
-      },
-  );
+  await evaluate("", async (e) => {
+    await window.$SealightsAgent.sendAllFootprints();
+  });
   await closeBrowser();
 });
 
