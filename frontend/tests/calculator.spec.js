@@ -20,7 +20,7 @@ test.beforeEach(async ({ page }, testInfo) => {
     },
     { title, testSession: process.env.testSessionId }
   );
-  await page.goto("http://localhost:3333");
+  await page.goto("http://localhost:9080");
   testStartTime = Date.now();
 });
 
