@@ -1,4 +1,4 @@
-rootProject.name = 'ftv-demo-backend'
+rootProject.name = 'ftv-agents-multiple-test-frameworks'
 
 include("gateway")
 include("calculator")

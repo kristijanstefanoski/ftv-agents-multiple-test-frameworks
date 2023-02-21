@@ -1,0 +1,21 @@
+{
+  "executionType": "testsonly",
+  "appName": "gfDemoTest02",
+  "branchName": "testing",
+  "packagesIncluded": "i00.sealights*",
+  "tokenFile": "sl-token.txt",
+  "testStage": "Cucumber Marc",
+  "runFunctionalTests": true,
+  "labId": "integ_testing_gfColoredBrowser",
+  "logEnabled": true,
+  "logToConsole": true,
+  "logDestination": "console",
+  "logLevel": "debug",
+  "scannerJar": "C:\\Users\\grzeg\\sellenium-philips-mvn\\sl-build-scanner.jar",
+  "listenerJar": "C:\\Users\\grzeg\\sellenium-philips-mvn\\sl-test-listener.jar",
+  "sealightsJvmParams": {
+    "sl.featuresData.enableSeleniumColoring": true,
+    "sl.featuresData.codeCoverageManagerVersion": "v2",
+    "sl.otel.enabled" : true
+  }
+}
