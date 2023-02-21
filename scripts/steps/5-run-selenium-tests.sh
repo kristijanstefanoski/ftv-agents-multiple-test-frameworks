@@ -1,16 +1,6 @@
 #!/bin/sh
 
-if [ $# -lt 1 ]; then
-    >&2
-    echo
-    echo "   LAB_ID must be provided. Provide the lab_id that was created in the backend application."
-    echo
-    exit 1
-fi
-
-LAB_ID=$1
-
-echo "Modifying the test POM"
+LAB_ID=labId=`jq -r '.labId' ../slLabData.json`
 
 cd ../../selenium-runner
 
